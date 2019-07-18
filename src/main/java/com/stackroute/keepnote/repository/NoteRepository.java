@@ -1,58 +1,77 @@
 package com.stackroute.keepnote.repository;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 import com.stackroute.keepnote.model.Note;
+import org.springframework.stereotype.Component;
 
 /*
- * This class contains the code for data storage interactions and methods 
+ * This class contains the code for data storage interactions and methods
  * of this class will be used by other parts of the applications such
  * as Controllers and Test Cases
  * */
-
+@Component
 public class NoteRepository {
 
 	/* Declare a variable called "list" to store all the notes. */
+	private List<Note> list;
 
 	public NoteRepository() {
-
 		/* Initialize the variable using proper data type */
+		list=new ArrayList<Note>();
 	}
 
 	/* This method should return all the notes in the list */
-
-	public List<Note> getList() {
-		return null;
+	public List<Note> getList()
+	{
+		return this.list;
 	}
 
 	/* This method should set the list variable with new list of notes */
-
-	public void setList(List<Note> list) {
-
+	public void setList(List<Note> list)
+	{
+		this.list= (ArrayList<Note>)list;
 	}
 
 	/*
 	 * This method should Note object as argument and add the new note object into
 	 * list
 	 */
-
-	public void addNote(Note note) {
-
+	public void addNote(Note note)
+	{
+		list.add(note);
 	}
 
 	/* This method should deleted a specified note from the list */
-
-	public boolean deleteNote(int noteId) {
+	public boolean deleteNote(int noteId)
+	{
 		/* Use list iterator to find matching note id and remove it from the list */
-		return false;
-		
-		
+		boolean delete = false;
+		int count =0;
+		for(Note noteIteration: list)
+		{
+			if (noteIteration.getNoteId()==noteId)
+			{
+				list.remove(count);
+				delete=true;
+				break;
+			}
+			else
+			{
+				delete=false;
+				count++;
+			}
+		}
+		return delete;
 	}
 
 	/* This method should return the list of notes */
 
-	public List<Note> getAllNotes() {
-		return null;
+	public List<Note> getAllNotes()
+	{
+		return this.list;
 	}
 
 	/*
@@ -60,8 +79,17 @@ public class NoteRepository {
 	 * Return true if note id exists in the list or return false if note id does not
 	 * exists in the list
 	 */
-
-	public boolean exists(int noteId) {
-		return false;
+	public boolean exists(int noteId)
+	{
+		boolean exist = false;
+		for(int i=0;i<list.size();i++)
+		{
+			Note noteElement = list.get(i);
+			if (noteElement.getNoteId()==noteId)
+			{
+				exist=true;
+			}
+		}
+		return exist;
 	}
 }
